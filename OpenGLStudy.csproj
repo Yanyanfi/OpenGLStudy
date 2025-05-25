@@ -42,7 +42,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="GameObjects\" />
+    <Folder Include="GameObject\" />
+    <Folder Include="GameObjectFactory\" />
   </ItemGroup>
 
 </Project>

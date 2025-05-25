@@ -191,7 +191,7 @@ class Game : GameWindow
         player.AddChild(cube);
         player.AddChild(objTest);
         var sun = new GameObject("Sun");
-        sun.AddComponent(new DirectLight(new(-0.2f, -1.0f, -0.3f), new(0.1f, 0.1f, 0.1f), new(1f, 1f, 1f), new(1.0f, 1.0f, 1.0f)));
+        sun.AddComponent(new DirectLight(new(-0.2f, -1.0f, -0.3f), new(0.1f, 0.1f, 0.1f), new(0.6f, 0.6f, 0.6f), new(2f, 2f, 2f)));
         var materialCube = new GameObject("MaterialCube", new(4, 4, 4))
         {
             Model = modelManager.GetModel(ModelType.GoldenCube)

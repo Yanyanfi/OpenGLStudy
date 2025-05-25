@@ -22,6 +22,8 @@ internal class ObjModel : ModelBase
     private List<float> specularPowers = [];
     private List<TexMode> texModes = [];
     private Dictionary<int, Texture> diffuseTexs = [];
+    private Dictionary<int, Texture> ambientTexs = [];
+    private Dictionary<int, Texture> specularTexs = [];
     private Dictionary<int, Texture> normalTexs = [];
     private int vaoIndex;
     public ObjModel(string path) : base(path) { }
@@ -31,8 +33,12 @@ internal class ObjModel : ModelBase
         shader?.SetMode(ShaderMode.MaterialLight);
         shader?.SetTexMode(texModes[vaoIndex]);
         diffuseTexs.TryGetValue(vaoIndex, out var dTexture);
+        ambientTexs.TryGetValue(vaoIndex, out var aTexture);
+        specularTexs.TryGetValue(vaoIndex, out var sTexture);
         normalTexs.TryGetValue(vaoIndex, out var nTexture);
         dTexture?.Bind();
+        aTexture?.Bind();
+        sTexture?.Bind();
         nTexture?.Bind();
         shader?.SetMaterial(MaterialTarget.Ambient, ambients[vaoIndex]);
         shader?.SetMaterial(MaterialTarget.Diffuse, diffuses[vaoIndex]);
@@ -145,15 +151,34 @@ internal class ObjModel : ModelBase
     {
         texModes.Add(TexMode.None);
         var directory = Path.GetDirectoryName(objPath)!;
-        if (material.GetMaterialTexture(TextureType.Diffuse, 0, out var dTexture))
+        LoadDiffuseTextures(directory, material, index);
+        LoadNormalTextures(directory, material, index);
+        Console.WriteLine("diffuseTexs.Count" + diffuseTexs.Count);
+    }
+    private void LoadDiffuseTextures(string directory,Material material,int index)
+    {
+        if(material.GetMaterialTexture(TextureType.Diffuse,0,out var dTexture))
         {
-            var texPath = Path.Combine(directory, dTexture.FilePath);
+            var texPath=Path.Combine(directory, dTexture.FilePath);
             if (File.Exists(texPath))
             {
                 texModes[^1] |= TexMode.Diffuse;
                 diffuseTexs[index] = new Texture(texPath, TextureWrapMode.Repeat, TextureUnit.Texture2);
+                if (!material.HasTextureAmbient)
+                {
+                    texModes[^1] |= TexMode.Ambient;
+                    ambientTexs[index] = new Texture(texPath, TextureWrapMode.Repeat, TextureUnit.Texture1);
+                }
+                if (!material.HasTextureSpecular)
+                {
+                    texModes[^1] |= TexMode.Specular;
+                    specularTexs[index] = new Texture(texPath, TextureWrapMode.Repeat, TextureUnit.Texture3);
+                }
             }
         }
+    }
+    private void LoadNormalTextures(string directory,Material material,int index)
+    {
         if (material.GetMaterialTexture(TextureType.Height, 0, out var nTexture))
         {
             var texPath = Path.Combine(directory, nTexture.FilePath);
@@ -163,7 +188,6 @@ internal class ObjModel : ModelBase
                 normalTexs[index] = new Texture(texPath, TextureWrapMode.Repeat, TextureUnit.Texture4);
             }
         }
-        Console.WriteLine("diffuseTexs.Count" + diffuseTexs.Count);
     }
     private (Vector3 Ambient, Vector3 Diffuse, Vector3 Specular, float Shininess) ParseMaterial(Material material)
     {
