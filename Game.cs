@@ -3,7 +3,6 @@ using OpenGLStudy.Components.Light;
 using OpenGLStudy.Enums;
 using OpenGLStudy.Inputs;
 using OpenGLStudy.Model;
-using OpenGLStudy.Model.Light;
 using OpenGLStudy.Models;
 using OpenGLStudy.Shaders;
 using OpenGLStudy.Textures;
@@ -52,7 +51,7 @@ class Game : GameWindow
     {
         base.OnLoad();
         GL.Enable(EnableCap.DepthTest);
-        
+
         GL.DepthFunc(DepthFunction.Less);
         CursorState = CursorState.Grabbed;
         GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -152,9 +151,10 @@ class Game : GameWindow
                 32),
             ModelType.Ball
         );
-        modelManager.AddModel(new ObjModel("Assets\\虚拟人物 二次元美女 动漫美女 可爱女孩_爱给网_aigei_com\\modelNew.fbx"), ModelType.Girl);
+        modelManager.AddModel(new ObjModel("Assets\\虚拟人物 二次元美女 动漫美女 可爱女孩_爱给网_aigei_com\\modelNew.fbx",
+            new Transform() { Rotation = Quaternion.FromEulerAngles(-(float)Math.PI / 2, 0, 0) }, false), ModelType.Girl);
         modelManager.AddModel(new ObjModel("Assets\\bugatti\\bugatti.obj"), ModelType.Car);
-        modelManager.AddModel(new ObjModel("Assets\\cottage\\cottage_obj.obj", true), ModelType.House);
+        modelManager.AddModel(new ObjModel("Assets\\cottage\\cottage_obj.obj", false), ModelType.House);
         modelManager.AddModel(new ObjModel("Assets\\IronMan\\IronMan.obj"), ModelType.IronMan);
         modelManager.AddModel(new ObjModel("Assets\\3pl90nmkl3sw-building_04_all\\building_04.obj"), ModelType.Building);
     }
@@ -178,7 +178,7 @@ class Game : GameWindow
             Model = modelManager.GetModel(ModelType.Girl)
         };
         //cube.AddComponent(new BiggerAndBigger(1.1f, 1f));
-        GameObject player = new("Player", new(1, 2, 1), new(1,1,1), Quaternion.FromAxisAngle(Vector3.UnitZ, MathHelper.DegreesToRadians(90f)))
+        GameObject player = new("Player", new(1, 2, 1), new(1, 1, 1), Quaternion.FromAxisAngle(Vector3.UnitZ, MathHelper.DegreesToRadians(90f)))
         {
             Model = modelManager.GetModel(ModelType.Cube),
         };
@@ -197,11 +197,11 @@ class Game : GameWindow
         {
             Model = modelManager.GetModel(ModelType.GoldenCube)
         };
-        var earth = new GameObject("Earth", new(0,0,0), new(5, 5, 5))
+        var earth = new GameObject("Earth", new(0, 0, 0), new(5, 5, 5))
         {
             Model = modelManager.GetModel(ModelType.Ball)
         };
-        earth.AddComponent(new TriangleSpinKeyboardController() { Speed=10});
+        earth.AddComponent(new TriangleSpinKeyboardController() { Speed = 10 });
         var moon = new GameObject("Moon", new(2, 0, 2), new(0.3f, 0.3f, 0.3f))
         {
             Model = modelManager.GetModel(ModelType.Ball)
@@ -214,7 +214,7 @@ class Game : GameWindow
         var carLight = new GameObject("carLight", new(0, 5, 0));
         //carLight.AddComponent(new PointLight(new(), 1.0f, 0.045f, 0.0075f, new(0.1f, 0.1f, 0.1f), new(0.8f, 0.8f, 0.8f), new(1, 1, 1)));
         car.AddChild(carLight);
-        var house = new GameObject("House", new(-20, 0, -20),new(1,1,1))
+        var house = new GameObject("House", new(-20, 0, -20), new(1, 1, 1))
         {
             Model = modelManager.GetModel(ModelType.House)
         };

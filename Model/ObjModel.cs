@@ -31,13 +31,16 @@ internal class ObjModel : ModelBase
     private Dictionary<int, Texture> normalTexs = [];
     private int vaoIndex;
     private bool useDiffuseTextureAsSpecular;
+    private Transform? transform;
     /// <summary>
     /// 从 .obj 文件中加载 obj 模型
     /// </summary>
     /// <param name="path">.obj 文件路径</param>
     /// <param name="useDiffuseAsSpecular">当 == <see langword="true"/> 时，如果镜面反射贴图不存在，则用漫反射贴图替代</param>
-    public ObjModel(string path, bool useDiffuseAsSpecular = false) : base(Path.Combine(AppContext.BaseDirectory, path), useDiffuseAsSpecular) { }
-
+    public ObjModel(string path, bool useDiffuseAsSpecular = false)
+        : base(Path.Combine(AppContext.BaseDirectory, path), useDiffuseAsSpecular) { }
+    public ObjModel(string path, Transform offset, bool useDiffuseAsSpecular = false)
+        : base(Path.Combine(AppContext.BaseDirectory, path), useDiffuseAsSpecular, offset) { }
     protected override void BeforeRender()
     {
         var shader = Shader.Instance;
@@ -106,6 +109,7 @@ internal class ObjModel : ModelBase
 
     protected override void GetVerticesAndIndices(params object[] args)
     {
+        transform = args.Length > 2 ? (Transform)args[2] : null;
         useDiffuseTextureAsSpecular = (bool)args[1];
         var objPath = args[0].ToString()!;
         Console.WriteLine($"正在加载模型：{Path.GetFileName(objPath)} ......");
@@ -140,7 +144,12 @@ internal class ObjModel : ModelBase
         IEnumerable<float[]> verts = [];
         for (int i = 0; i < mesh.VertexCount; i++)
         {
-            var pos = mesh.Vertices[i];
+            var pos1 = mesh.Vertices[i];
+            var pos = transform switch
+            {
+                null => new Vector3(pos1.X, pos1.Y, pos1.Z),
+                not null => (new Vector4(pos1.X, pos1.Y, pos1.Z, 1.0f) * transform.GetModelMatrix()).Xyz
+            };
             var normal = mesh.HasNormals ? mesh.Normals[i] : new Vector3D();
             var tangent = mesh.HasTangentBasis ? mesh.Tangents[i] : new Vector3D();
             var biTangent = mesh.HasTangentBasis ? mesh.BiTangents[i] : new Vector3D();
@@ -181,7 +190,7 @@ internal class ObjModel : ModelBase
                     texModes[^1] |= TexMode.Ambient;
                     ambientTexs[index] = new Texture(texPath, TextureWrapMode.Repeat, TextureUnit.Texture1);
                 }
-                if (!material.HasTextureSpecular)
+                if (!material.HasTextureSpecular && useDiffuseTextureAsSpecular)
                 {
                     texModes[^1] |= TexMode.Specular;
                     specularTexs[index] = new Texture(texPath, TextureWrapMode.Repeat, TextureUnit.Texture3);
