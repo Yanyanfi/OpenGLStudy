@@ -195,6 +195,8 @@ internal class Shader : IDisposable
     public static Shader? Instance { get; private set; }
     public Shader(string vertexPath, string fragmentPath)
     {
+        vertexPath=Path.Combine(AppContext.BaseDirectory, vertexPath);
+        fragmentPath = Path.Combine(AppContext.BaseDirectory, fragmentPath);
         string vertexShaderSource = File.ReadAllText(vertexPath);
         string fragmentShaderSource = File.ReadAllText(fragmentPath);
         int vertexShader = GL.CreateShader(ShaderType.VertexShader);

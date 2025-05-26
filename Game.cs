@@ -57,8 +57,8 @@ class Game : GameWindow
         CursorState = CursorState.Grabbed;
         GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         shader = new(
-            "E:\\Visual Studio Project\\OpenGLStudy\\Shaders\\shader.vert",
-            "E:\\Visual Studio Project\\OpenGLStudy\\Shaders\\shader.frag"
+            "Assets\\shader.vert",
+            "Assets\\shader.frag"
         );
         shader.Use();
         LoadTextures();
