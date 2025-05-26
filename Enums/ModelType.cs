@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenGLStudy.Models;
+namespace OpenGLStudy.Enums;
 
 internal enum ModelType
 {

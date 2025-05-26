@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using OpenGLStudy.Model;
+using OpenGLStudy.Model.Base;
 using OpenGLStudy.Models;
 using OpenGLStudy.Textures;
 using OpenTK.Graphics.OpenGL4;

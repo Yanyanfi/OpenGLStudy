@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenGLStudy.Shaders.Enums;
+namespace OpenGLStudy.Enums;
 
-internal enum LightType
+internal enum TextureType
 {
-    Direct,
-    Point,
-    Spot
+    Wall,
+    Wall2,
+    Nana,
+    Bloody
 }

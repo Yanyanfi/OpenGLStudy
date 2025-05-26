@@ -1,5 +1,6 @@
 ﻿using OpenGLStudy.Components;
 using OpenGLStudy.Components.Light;
+using OpenGLStudy.Enums;
 using OpenGLStudy.Inputs;
 using OpenGLStudy.Model;
 using OpenGLStudy.Model.Light;
@@ -104,19 +105,19 @@ class Game : GameWindow
         textureManager = new();
         textureManager.AddTexture(
             TextureType.Wall,
-            "E:\\Visual Studio Project\\OpenGLStudy\\wall.jpg"
+            "Assets\\wall.jpg"
         );
         textureManager.AddTexture(
             TextureType.Nana,
-            "C:\\Users\\wanya\\Pictures\\avatar\\头像\\tw_icon_nana_sd.png"
+            "Assets\\tw_icon_nana_sd.png"
         );
         textureManager.AddTexture(
             TextureType.Wall2,
-            "E:\\Visual Studio Project\\OpenGLStudy\\images.jfif"
+            "Assets\\images.jfif"
         );
         textureManager.AddTexture(
             TextureType.Bloody,
-            "E:\\Visual Studio Project\\OpenGLStudy\\44514e8f49b58ea6aca4fb53d257f48d.jpg"
+            "Assets\\44514e8f49b58ea6aca4fb53d257f48d.jpg"
         );
     }
 
@@ -133,8 +134,8 @@ class Game : GameWindow
         );
         modelManager.AddModel(
             new TxtMaterialModel(
-                "E:\\Visual Studio Project\\OpenGLStudy\\Model\\MaterialCubeVertices.txt",
-                "E:\\Visual Studio Project\\OpenGLStudy\\Model\\MaterialCubeIndices.txt",
+                "Assets\\MaterialCubeVertices.txt",
+                "Assets\\MaterialCubeIndices.txt",
                 new(1.0f, 0.5f, 0.31f),
                 new(1.0f, 0.5f, 0.31f),
                 new(0.5f, 0.5f, 0.5f),
@@ -151,11 +152,11 @@ class Game : GameWindow
                 32),
             ModelType.Ball
         );
-        modelManager.AddModel(new ObjModel("E:\\Visual Studio Project\\OpenGLStudy\\Assets\\虚拟人物 二次元美女 动漫美女 可爱女孩_爱给网_aigei_com\\modelNew.fbx"),ModelType.Girl);
-        modelManager.AddModel(new ObjModel("E:\\Visual Studio Project\\OpenGLStudy\\Assets\\bugatti\\bugatti.obj"), ModelType.Car);
-        modelManager.AddModel(new ObjModel("E:\\Visual Studio Project\\OpenGLStudy\\Assets\\cottage\\cottage_obj.obj"),ModelType.House);
-        modelManager.AddModel(new ObjModel("E:\\Visual Studio Project\\OpenGLStudy\\Assets\\IronMan\\IronMan.obj"), ModelType.IronMan);
-        modelManager.AddModel(new ObjModel("E:\\Visual Studio Project\\OpenGLStudy\\Assets\\3pl90nmkl3sw-building_04_all\\building_04.obj"), ModelType.Building);
+        modelManager.AddModel(new ObjModel("Assets\\虚拟人物 二次元美女 动漫美女 可爱女孩_爱给网_aigei_com\\modelNew.fbx"), ModelType.Girl);
+        modelManager.AddModel(new ObjModel("Assets\\bugatti\\bugatti.obj"), ModelType.Car);
+        modelManager.AddModel(new ObjModel("Assets\\cottage\\cottage_obj.obj", true), ModelType.House);
+        modelManager.AddModel(new ObjModel("Assets\\IronMan\\IronMan.obj"), ModelType.IronMan);
+        modelManager.AddModel(new ObjModel("Assets\\3pl90nmkl3sw-building_04_all\\building_04.obj"), ModelType.Building);
     }
 
     private void InitializeGameObjects()

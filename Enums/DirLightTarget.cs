@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenGLStudy;
+namespace OpenGLStudy.Enums;
 
-internal enum MVPMatrixTarget
+internal enum DirLightTarget
 {
-    Model,
-    View,
-    Projection
+    Direction,
+    Ambient,
+    Diffuse,
+    Specular
 }

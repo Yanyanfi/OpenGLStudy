@@ -1,4 +1,5 @@
-﻿using OpenTK.Mathematics;
+﻿using OpenGLStudy.Model.Base;
+using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.Linq;

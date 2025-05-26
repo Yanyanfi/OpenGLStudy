@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenGLStudy.Textures;
+namespace OpenGLStudy.Enums;
 
-internal enum TextureType
+internal enum GameObjectType
 {
-    Wall,
-    Wall2,
-    Nana,
-    Bloody
+    None,
+    Player,
+    WallCube,
+    NanaCube,
+    WallTriangle
 }

@@ -1,4 +1,4 @@
-﻿using OpenGLStudy.Model;
+﻿using OpenGLStudy.Model.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;

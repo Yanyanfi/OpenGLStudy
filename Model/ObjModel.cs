@@ -1,6 +1,7 @@
 ﻿using Assimp;
+using OpenGLStudy.Enums;
+using OpenGLStudy.Model.Base;
 using OpenGLStudy.Shaders;
-using OpenGLStudy.Shaders.Enums;
 using OpenGLStudy.Textures;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
@@ -9,6 +10,9 @@ using TextureWrapMode = OpenTK.Graphics.OpenGL4.TextureWrapMode;
 
 namespace OpenGLStudy.Model;
 
+/// <summary>
+/// 加载 .obj 模型
+/// </summary>
 internal class ObjModel : ModelBase
 {
     private int[] vaos = null!;
@@ -26,7 +30,14 @@ internal class ObjModel : ModelBase
     private Dictionary<int, Texture> specularTexs = [];
     private Dictionary<int, Texture> normalTexs = [];
     private int vaoIndex;
-    public ObjModel(string path) : base(path) { }
+    private bool useDiffuseTextureAsSpecular;
+    /// <summary>
+    /// 从 .obj 文件中加载 obj 模型
+    /// </summary>
+    /// <param name="path">.obj 文件路径</param>
+    /// <param name="useDiffuseAsSpecular">当 == <see langword="true"/> 时，如果镜面反射贴图不存在，则用漫反射贴图替代</param>
+    public ObjModel(string path, bool useDiffuseAsSpecular = false) : base(Path.Combine(AppContext.BaseDirectory, path), useDiffuseAsSpecular) { }
+
     protected override void BeforeRender()
     {
         var shader = Shader.Instance;
@@ -95,6 +106,7 @@ internal class ObjModel : ModelBase
 
     protected override void GetVerticesAndIndices(params object[] args)
     {
+        useDiffuseTextureAsSpecular = (bool)args[1];
         var objPath = args[0].ToString()!;
         Console.WriteLine($"正在加载模型：{Path.GetFileName(objPath)} ......");
         GetObjData(objPath);
@@ -155,11 +167,11 @@ internal class ObjModel : ModelBase
         LoadNormalTextures(directory, material, index);
         Console.WriteLine("diffuseTexs.Count" + diffuseTexs.Count);
     }
-    private void LoadDiffuseTextures(string directory,Material material,int index)
+    private void LoadDiffuseTextures(string directory, Material material, int index)
     {
-        if(material.GetMaterialTexture(TextureType.Diffuse,0,out var dTexture))
+        if (material.GetMaterialTexture(TextureType.Diffuse, 0, out var dTexture))
         {
-            var texPath=Path.Combine(directory, dTexture.FilePath);
+            var texPath = Path.Combine(directory, dTexture.FilePath);
             if (File.Exists(texPath))
             {
                 texModes[^1] |= TexMode.Diffuse;
@@ -177,7 +189,7 @@ internal class ObjModel : ModelBase
             }
         }
     }
-    private void LoadNormalTextures(string directory,Material material,int index)
+    private void LoadNormalTextures(string directory, Material material, int index)
     {
         if (material.GetMaterialTexture(TextureType.Height, 0, out var nTexture))
         {
@@ -207,11 +219,11 @@ internal class ObjModel : ModelBase
         {
             if (disposing)
             {
-                foreach(var tex in normalTexs)
+                foreach (var tex in normalTexs)
                 {
                     tex.Value.Dispose();
                 }
-                foreach(var tex in diffuseTexs)
+                foreach (var tex in diffuseTexs)
                 {
                     tex.Value.Dispose();
                 }

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenGLStudy.Enums;
 using OpenGLStudy.Shaders;
-using OpenGLStudy.Shaders.Enums;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 

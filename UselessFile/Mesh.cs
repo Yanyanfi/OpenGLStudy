@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using OpenTK.Audio.OpenAL;
 using OpenTK.Graphics.OpenGL4;
 
-namespace OpenGLStudy.Models;
+namespace OpenGLStudy.UselessFile;
 
 internal class Mesh : IDisposable
 {

@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenGLStudy.Shaders.Enums;
+namespace OpenGLStudy.Enums;
 
-internal enum MaterialTarget
+internal enum PointLightTarget
 {
+    Position,
+    Constant,
+    Linear,
+    Quadratic,
     Ambient,
-    Diffuse,
     Specular,
-    Shininess
+    Diffuse,
 }

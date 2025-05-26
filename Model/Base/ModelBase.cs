@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenGLStudy.Model;
+namespace OpenGLStudy.Model.Base;
 
 internal abstract class ModelBase : IRenderable, IDisposable
 {

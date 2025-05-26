@@ -1,4 +1,5 @@
-﻿using OpenGLStudy.Inputs;
+﻿using OpenGLStudy.Enums;
+using OpenGLStudy.Inputs;
 using OpenGLStudy.Shaders;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;

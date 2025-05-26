@@ -9,6 +9,7 @@ internal class Texture : IDisposable
     private TextureUnit textureUnit = TextureUnit.Texture0;
     public Texture(string imagePath, TextureWrapMode wrapMode)
     {
+        imagePath = Path.Combine(AppContext.BaseDirectory, imagePath);
         using var image = SixLabors.ImageSharp.Image.Load<Rgba32>(imagePath);
         byte[] pixels = new byte[image.Width * image.Height * 4];
         image.CopyPixelDataTo(pixels);

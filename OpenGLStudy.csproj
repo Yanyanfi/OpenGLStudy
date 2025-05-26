@@ -23,11 +23,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>MeshResource.resx</DependentUpon>
     </Compile>
-    <Compile Update="Textures\TextureResource.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>TextureResource.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -35,15 +30,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MeshResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Textures\TextureResource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>TextureResource.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="GameObject\" />
     <Folder Include="GameObjectFactory\" />
+    <Folder Include="Shaders\Enums\" />
   </ItemGroup>
 
 </Project>

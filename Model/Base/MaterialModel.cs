@@ -1,5 +1,5 @@
-﻿using OpenGLStudy.Shaders;
-using OpenGLStudy.Shaders.Enums;
+﻿using OpenGLStudy.Enums;
+using OpenGLStudy.Shaders;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenGLStudy.Model;
+namespace OpenGLStudy.Model.Base;
 
 internal abstract class MaterialModel : ModelBase
 {

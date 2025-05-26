@@ -1,4 +1,5 @@
-﻿using OpenGLStudy.Model;
+﻿using OpenGLStudy.Enums;
+using OpenGLStudy.Model.Base;
 
 namespace OpenGLStudy.Models;
 

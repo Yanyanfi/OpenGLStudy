@@ -1,4 +1,4 @@
-﻿using OpenGLStudy.Shaders.Enums;
+﻿using OpenGLStudy.Enums;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 

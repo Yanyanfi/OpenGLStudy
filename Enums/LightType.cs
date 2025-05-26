@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenGLStudy.Shaders.Enums;
+namespace OpenGLStudy.Enums;
 
-internal enum DirLightTarget
+internal enum LightType
 {
-    Direction,
-    Ambient,
-    Diffuse,
-    Specular
+    Direct,
+    Point,
+    Spot
 }

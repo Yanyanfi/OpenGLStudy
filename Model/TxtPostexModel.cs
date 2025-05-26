@@ -1,4 +1,5 @@
-﻿using OpenGLStudy.Textures;
+﻿using OpenGLStudy.Model.Base;
+using OpenGLStudy.Textures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,8 @@ namespace OpenGLStudy.Model;
 
 internal class TxtPostexModel : PostexModel
 {
-    public TxtPostexModel(string verticesPath, string indicesPath, Texture texture) : base(texture, verticesPath, indicesPath) { }
+    public TxtPostexModel(string verticesPath, string indicesPath, Texture texture)
+        : base(texture, Path.Combine(AppContext.BaseDirectory, verticesPath), Path.Combine(AppContext.BaseDirectory, indicesPath)) { }
 
     protected override void GetVerticesAndIndices(params object[] paths)
     {

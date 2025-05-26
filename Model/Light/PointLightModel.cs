@@ -1,5 +1,6 @@
-﻿using OpenGLStudy.Shaders;
-using OpenGLStudy.Shaders.Enums;
+﻿using OpenGLStudy.Enums;
+using OpenGLStudy.Model.Base;
+using OpenGLStudy.Shaders;
 using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;

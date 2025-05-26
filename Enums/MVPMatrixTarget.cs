@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenGLStudy.Model;
+namespace OpenGLStudy.Enums;
 
-internal interface IRenderable
+internal enum MVPMatrixTarget
 {
-    void Render();
+    Model,
+    View,
+    Projection
 }

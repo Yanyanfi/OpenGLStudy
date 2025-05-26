@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenGLStudy;
+namespace OpenGLStudy.Enums;
 
-internal enum GameObjectType
+internal enum MaterialTarget
 {
-    None,
-    Player,
-    WallCube,
-    NanaCube,
-    WallTriangle
+    Ambient,
+    Diffuse,
+    Specular,
+    Shininess
 }
