@@ -11,7 +11,7 @@ internal class GameObject
     public string Name { get; set; }
     public Transform Transform { get; set; } = new();
     public IRenderable? Model { get; set; }
-
+    public GameScene Scene { get; set; }
     public T GetComponent<T>() where T : Component =>
         (T?)components.Find(e => e is T) ?? throw new Exception($"Component of type {typeof(T).Name} not found in {Name}");
     public bool TryGetComponent<T>(out T? component) where T : Component
@@ -26,10 +26,10 @@ internal class GameObject
         children.Add(obj);
         obj.parent = this;
     }
-    public void AddComponent(Component component)
+    public void AddComponent(params List<Component> components)
     {
-        component.Owner = this;
-        components.Add(component);
+        components.ForEach(e => e.Owner = this);
+        this.components.AddRange(components);
     }
     /// <summary>
     /// 如果组件有无参构造函数，可以调用此方法添加组件

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenGLStudy.Components;
+namespace OpenGLStudy.Components.Cameras;
 
 internal class ThirdPersonCameraDistanceController : Component
 {
@@ -17,7 +17,7 @@ internal class ThirdPersonCameraDistanceController : Component
     public float Speed { get; set; } = 1.0f;
     public override void Start()
     {
-        Owner.TryGetComponent<Camera>(out camera);
+        Owner.TryGetComponent(out camera);
     }
     public override void Update(float deltaTime)
     {
