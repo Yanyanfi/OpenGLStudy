@@ -8,14 +8,13 @@ namespace OpenGLStudy.Components;
 internal class PlayerMove : Component
 {
     public float Speed { get; set; } = 3f;
-    private Camera camera = null!;
-    private Vector3 Front => camera.Front;
-    private Vector3 Up=> camera.Up;
-    private Vector3 Right => camera.Right;
+    private Vector3 Front => Owner.Transform.Front;
+    private Vector3 Up=> Owner.Transform.Up;
+    private Vector3 Right => Owner.Transform.Right;
     public override void Start()
     {
-        camera = Owner.GetComponent<Camera>();
-        FrameTimeLimit=camera.FrameTimeLimit;
+       
+        FrameTimeLimit= Owner.GetComponent<Camera>().FrameTimeLimit;
     }
     protected override void CustomUpdate(float deltaTime)
     {

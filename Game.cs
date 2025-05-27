@@ -56,8 +56,8 @@ partial class Game : GameWindow
         CursorState = CursorState.Grabbed;
         GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         shader = new(
-            "Assets\\shader.vert",
-            "Assets\\shader.frag"
+            "Assets\\shaders\\shader.vert",
+            "Assets\\shaders\\shader.frag"
         );
         shader.Use();
         LoadTextures();

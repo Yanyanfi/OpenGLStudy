@@ -38,7 +38,7 @@ internal class Camera : Component
         PositionOffset = positionOffset;
         AspectRatio = aspectRatio;
         EnableThirdPerson = thirdPerson;
-        FrameTimeLimit = 1 / 165f;
+        FrameTimeLimit = 0;
     }
 
     protected override void CustomUpdate(float deltaTime)
