@@ -1,0 +1,44 @@
+﻿#version 330 core
+layout (location = 0) in vec3 aPosition;
+layout (location = 1) in vec2 aTexCoord;
+layout (location = 2) in vec3 aNormal;
+layout (location = 3) in vec3 aTangent;
+layout (location = 4) in vec3 aBiTangent;
+uniform int mode=0;
+uniform mat4 mvp;
+uniform mat4 mv;
+uniform mat3 normal_mat;//for viewspace transform
+out vec2 texCoord;
+out vec3 fragPos;
+out vec3 normal;
+out vec2 dTexCoord;
+out vec3 tangent;
+out vec3 biTangent;
+
+void textureUnlit()
+{ 
+    
+}
+void phoneLit()
+{
+    normal=normalize(normal_mat*aNormal);
+    tangent=normalize(normal_mat*aTangent);
+    biTangent=normalize(normal_mat*aBiTangent);
+}
+void main()
+{
+    fragPos = vec3(mv * vec4(aPosition, 1.0));
+    gl_Position = mvp * vec4(aPosition, 1.0);
+    texCoord = aTexCoord;
+    if(mode == 1)
+    {
+        textureUnlit();
+    }
+    else if(mode == 2)
+    {
+        phoneLit();
+    }
+     
+}
+
+

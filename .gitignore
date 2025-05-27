@@ -12,6 +12,11 @@
 *.zip
 *.rar
 bin/
+!bin/Debug/
+!bin/Debug/net9.0/
+!bin/Debug/net9.0/Assets/
+!bin/Debug/net9.0/Assets/shaders/
+!bin/Debug/net9.0/Assets/shaders/**
 Assets/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
