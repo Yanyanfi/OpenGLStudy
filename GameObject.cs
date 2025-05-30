@@ -11,7 +11,15 @@ internal class GameObject
     public string Name { get; set; }
     public Transform Transform { get; set; } = new();
     public IRenderable? Model { get; set; }
-    public GameScene Scene { get; set; } = null!;
+    public GameScene Scene
+    {
+        get;
+        set
+        {
+            field = value;
+            components.ForEach(e => e.Scene = value);
+        }
+    } = null!;
     /// <summary>
     /// 是否进入游戏循环 (逻辑上)
     /// </summary>
