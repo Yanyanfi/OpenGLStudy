@@ -1,6 +1,7 @@
 ﻿using OpenGLStudy.Enums;
 using OpenGLStudy.Model.Base;
 using OpenGLStudy.Shaders;
+using OpenTK.Graphics.ES11;
 using OpenTK.Mathematics;
 
 namespace OpenGLStudy;
@@ -139,6 +140,51 @@ internal class GameObject
         }
         return result;
     }
+    public bool TryGetComponentInParent<T>(out T? component) where T : Component
+    {
+        if (parent is null)
+        {
+            component = null;
+            return false;
+        }
+        return parent.TryGetComponent<T>(out component);
+    }
+    public T GetComponentInParent<T>() where T : Component
+    {
+        if (TryGetComponentInParent<T>(out var component))
+            return component!;
+        throw new InvalidOperationException($"Component of type {typeof(T).Name} not found in {Name}'s parent");
+    }
+    public List<T> GetComponentsInParent<T>() where T : Component => parent?.GetComponents<T>() ?? [];
+    public bool TryGetComponentInAncestors<T>(out T? component)where T : Component
+    {
+        var parent = this.parent;
+        while(parent is not null)
+        {
+            if(parent.TryGetComponent<T>(out component))
+                return true;
+            parent = parent.parent;
+        }
+        component = null;
+        return false;
+    }
+    public T GetComponentInAncestors<T>()where T : Component
+    {
+        if(TryGetComponentInAncestors<T>(out var component))
+            return component!;
+        throw new InvalidOperationException($"Component of type {typeof(T).Name} not found in {Name}'s Ancestors");
+    }
+    public List<T> GetComponentsInAncestors<T>()where T : Component
+    {
+        List<T> result = [];
+        var parent = this.parent;
+        while(parent is not null)
+        {
+            result.AddRange(parent.GetComponents<T>());
+            parent = parent.parent;
+        }
+        return result;
+    }
     /// <summary>
     /// 寻找直系子对象
     /// </summary>
@@ -212,7 +258,7 @@ internal class GameObject
     {
         components.FindAll(e => e is T).ForEach(e => e.IsEnable = true);
     }
-
+    public void RemoveFromScene() => Scene.RemoveGameObjects(this);
     public void Start()
     {
         children.ForEach(e => e.Start());
@@ -227,7 +273,7 @@ internal class GameObject
 
     public void Render()
     {
-        if(!Visible)
+        if (!Visible)
             return;
         children.ForEach(e => e.Render());
         var parent = this.parent;

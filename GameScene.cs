@@ -56,6 +56,10 @@ internal class GameScene
     {
         gameObjects.FindAll(e => e.HasComponent<T>()).ForEach(e => gameObjects.Remove(e));
     }
+    public void RemoveGameObjects(params List<GameObject> gameObjects)
+    {
+        gameObjects.ForEach(e => this.gameObjects.Remove(e));
+    }
     public void DisableGameObject(string name)
     {
         gameObjects.FirstOrDefault(e => e.Name == name)?.IsEnable = false;
