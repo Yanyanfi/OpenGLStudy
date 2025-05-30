@@ -4,13 +4,6 @@ using OpenGLStudy.Components.Light;
 using OpenGLStudy.Enums;
 using OpenGLStudy.Model;
 using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Schema;
-using System.Xml.Serialization;
 
 namespace OpenGLStudy;
 
@@ -18,7 +11,6 @@ internal partial class Game
 {
     private partial void LoadTextures()
     {
-        textureManager = new();
         textureManager.AddTexture(
             TextureType.Wall,
             "Assets\\wall.jpg"
@@ -38,7 +30,6 @@ internal partial class Game
     }
     private partial void LoadModels()
     {
-        modelManager = new();
         modelManager.AddModel(
             new ResxPostexModel("Triangle", textureManager.GetTexture(TextureType.Wall2)),
             ModelType.Triangle
@@ -67,22 +58,23 @@ internal partial class Game
                 32),
             ModelType.Ball
         );
-        modelManager.AddModel(new ObjModel("Assets\\虚拟人物 二次元美女 动漫美女 可爱女孩_爱给网_aigei_com\\modelNew.fbx",
-             new() { Rotation = Quaternion.FromEulerAngles(-(float)Math.PI / 2, 0, 0) }, false), ModelType.Girl);
+        modelManager.AddModel(new FbxModel("Assets\\虚拟人物 二次元美女 动漫美女 可爱女孩_爱给网_aigei_com\\modelNew.fbx",
+            new Transform() { Rotation = new(-(float)Math.PI / 2, 0, (float)Math.PI) }), ModelType.Girl);
         modelManager.AddModel(new ObjModel("Assets\\bugatti\\bugatti.obj"), ModelType.Car);
         modelManager.AddModel(new ObjModel("Assets\\cottage\\cottage_obj.obj", false), ModelType.House);
         modelManager.AddModel(new ObjModel("Assets\\IronMan\\IronMan.obj"), ModelType.IronMan);
         modelManager.AddModel(new ObjModel("Assets\\3pl90nmkl3sw-building_04_all\\building_04.obj"), ModelType.Building);
+        modelManager.AddModel(new FbxModel("Assets\\shaonv1\\shaonv1_a_2011.FBX",
+            new() { Rotation = new(-(float)Math.PI / 2, 0, (float)Math.PI), Scale = new(0.01f) }, false), ModelType.Fairy);
     }
     private partial void InitializeGameObjects()
     {
-        scene = new();
         var triangle = new GameObject("Triangle", new(0, 10, 0), new(10, 10, 10), new(1, 1, 1))
         {
             Model = modelManager.GetModel(ModelType.Triangle),
         };
         triangle.AddComponent<TriangleSpinKeyboardController>();
-        var cube = new GameObject("Cube", new(0, 0, 2))
+        var cube = new GameObject("Cube", new(0, 0, -2))
         {
             Model = modelManager.GetModel(ModelType.Cube),
 
@@ -99,14 +91,14 @@ internal partial class Game
         };
 
         player.AddComponent(
-            new PlayerMove(),
+            new PlayerMove() { Speed = 8 },
             new CameraDirectionController(),
             new PlayerDirectionController(),
-            new Camera(new(0, 1.4f, 0), width / height, false) { FarPlane = 10000f }
+            new Camera(new(0, 1.4f, 0), width / height, true) { FarPlane = 1000 },
+            new PointLight(new(0, 0, 0), 1.0f, 0.35f, 0.44f, new(0.1f, 0.1f, 0.1f), new(1, 1, 1), new(1, 1, 1)),
+            new CameraPerspectiveSwitcher(),
+            new ThirdPersonCameraDistanceController()
         );
-        player.AddComponent(new PointLight(new(0, 0, 0), 1.0f, 0.35f, 0.44f, new(0.1f, 0.1f, 0.1f), new(1, 1, 1), new(1, 1, 1)));
-        player.AddComponent<CameraPerspectiveSwitcher>();
-        player.AddComponent<ThirdPersonCameraDistanceController>();
         player.AddChild(cube);
         player.AddChild(objTest);
         var sun = new GameObject("Sun");
@@ -136,11 +128,11 @@ internal partial class Game
         {
             Model = modelManager.GetModel(ModelType.House)
         };
-        var houseCube = new GameObject("HouseCube", new(10, 0, 0), new(4, 4, 4))
+        var houseMaid = new GameObject("HouseMaid", new(10, 0, 0), new(4, 4, 4))
         {
-            Model = modelManager.GetModel(ModelType.Girl)
+            Model = modelManager.GetModel(ModelType.Fairy)
         };
-        house.AddChild(houseCube);
+        house.AddChild(houseMaid);
         scene.AddGameObject(sun);
         scene.AddGameObject(materialCube);
         scene.AddGameObject(player);

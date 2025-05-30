@@ -21,10 +21,10 @@ partial class Game : GameWindow
     private int width,
         height;
 
-    private Shader shader = null!;
-    private ModelManager modelManager = null!;
-    private TextureManager textureManager = null!;
-    private GameScene scene = null!;
+    private Shader shader;
+    private ModelManager modelManager;
+    private TextureManager textureManager;
+    private GameScene scene;
 
     public Game(int width, int height, Vector2i location, string title)
         : base(
@@ -35,6 +35,13 @@ partial class Game : GameWindow
         this.width = width;
         this.height = height;
         Location = location;
+        shader = new(
+            "Assets\\shaders\\shader.vert",
+            "Assets\\shaders\\shader.frag"
+        );
+        textureManager = new();
+        modelManager = new();
+        scene = new();
     }
 
     protected override void OnUpdateFrame(FrameEventArgs args)
@@ -51,14 +58,9 @@ partial class Game : GameWindow
     {
         base.OnLoad();
         GL.Enable(EnableCap.DepthTest);
-
         GL.DepthFunc(DepthFunction.Less);
         CursorState = CursorState.Grabbed;
         GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        shader = new(
-            "Assets\\shaders\\shader.vert",
-            "Assets\\shaders\\shader.frag"
-        );
         shader.Use();
         LoadTextures();
         LoadModels();
@@ -78,12 +80,6 @@ partial class Game : GameWindow
     protected override void OnRenderFrame(FrameEventArgs args)
     {
         base.OnRenderFrame(args);
-        //GL.ClearColor(
-        //    (float)MathHelper.Abs(MathHelper.Cos(GLFW.GetTime())),
-        //    (float)MathHelper.Abs(MathHelper.Sin(GLFW.GetTime())),
-        //    (float)MathHelper.Abs(MathHelper.Sin(GLFW.GetTime())),
-        //    1f
-        //);
         GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         scene.Render();
         SwapBuffers();

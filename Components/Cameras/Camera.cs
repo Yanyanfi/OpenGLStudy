@@ -18,9 +18,19 @@ internal class Camera : Component
     public Vector3 PositionOffset { get; set; }
     public Vector3 Position => Owner.Transform.Position + PositionOffset;
     public Vector3 ThirdPersonPosition => Position - Front * ThirdPersonDistance;
-    public float Yaw { get; set; } = 90;
+    public float Yaw { get; set; } = 0;
+    public float YawDegree
+    {
+        get => MathHelper.RadiansToDegrees(Yaw);
+        set => Yaw = MathHelper.DegreesToRadians(value);
+    }
     public float Pitch { get; set; } = 0;
-    public Vector3 Front { get; private set; } = -Vector3.UnitZ;
+    public float PitchDegree
+    {
+        get => MathHelper.RadiansToDegrees(Pitch);
+        set => Pitch = MathHelper.DegreesToRadians(value);
+    }
+    public Vector3 Front { get; private set; } = Vector3.UnitZ;
     public Vector3 Up { get; private set; } = Vector3.UnitY;
     public Vector3 Right => Vector3.Normalize(Vector3.Cross(Front, Up));
     private Matrix4 ProjectionMatrix =>
@@ -33,6 +43,7 @@ internal class Camera : Component
     private Matrix4 ViewMatrix => Matrix4.LookAt(Position, Position + Front, Up);
     private Matrix4 TPViewMatrix => Matrix4.LookAt(ThirdPersonPosition, ThirdPersonPosition + Front, Up);
 
+    public Camera() { }
     public Camera(Vector3 positionOffset, float aspectRatio, bool thirdPerson = false)
     {
         PositionOffset = positionOffset;
@@ -50,9 +61,9 @@ internal class Camera : Component
     private void UpdateFront()
     {
         Front = new Vector3(
-            MathF.Cos(MathHelper.DegreesToRadians(Yaw)) * MathF.Cos(MathHelper.DegreesToRadians(Pitch)),
-            MathF.Sin(MathHelper.DegreesToRadians(Pitch)),
-            MathF.Sin(MathHelper.DegreesToRadians(Yaw)) * MathF.Cos(MathHelper.DegreesToRadians(Pitch))
+            -MathF.Sin(Yaw) * MathF.Cos(Pitch),
+            MathF.Sin(Pitch),
+            -MathF.Cos(Yaw) * MathF.Cos(Pitch)
         );
     }
 }

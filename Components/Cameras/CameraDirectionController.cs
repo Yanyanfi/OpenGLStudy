@@ -14,9 +14,9 @@ internal class CameraDirectionController : Component
     private void HandleMouseMove()
     {
         Vector2 delta = InputState.Mouse.Delta;
-        camera?.Yaw += delta.X * Sensitivity;
-        camera?.Pitch -= delta.Y * Sensitivity;
-        camera?.Pitch = MathHelper.Clamp(camera.Pitch, -89, 89);
+        camera?.YawDegree -= delta.X * Sensitivity;
+        camera?.PitchDegree -= delta.Y * Sensitivity;
+        camera?.PitchDegree = MathHelper.Clamp(camera.PitchDegree, -89, 89);
     }
 }
 

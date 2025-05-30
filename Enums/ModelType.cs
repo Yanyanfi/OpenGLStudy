@@ -16,5 +16,6 @@ internal enum ModelType
     Car,
     House,
     IronMan,
-    Building
+    Building,
+    Fairy
 }

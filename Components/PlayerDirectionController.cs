@@ -24,7 +24,7 @@ internal class PlayerDirectionController : Component
                 camera.Yaw = tempYaw;
                 isFreeView = false;
             }
-            Owner.Transform.Rotation = Quaternion.FromEulerAngles(0f, MathHelper.DegreesToRadians(-camera.Yaw + 90), 0f);
+            Owner.Transform.Rotation = Quaternion.FromEulerAngles(0f, camera.Yaw, 0f);
         }
         else if (!isFreeView)
         {

@@ -7,17 +7,17 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenGLStudy;
+namespace OpenGLStudy.UselessFile;
 
 internal class Vertex : IEnumerable<float>
 {
-    public Vertex(float x, float y, float z, float texCoordsX, float texCoordsY)
+    public Vertex(float x, float y, float z, float texCoordX, float texCoordY)
     {
         Position = new(x, y, z);
-        TexCoords = new(texCoordsX, texCoordsY);
+        TexCoord = new(texCoordX, texCoordY);
     }
     public Vector3 Position { get; set; }
-    public Vector2 TexCoords { get; set; }
+    public Vector2 TexCoord { get; set; }
     
     public static int Size => sizeof(float) * 5;
 
@@ -26,8 +26,8 @@ internal class Vertex : IEnumerable<float>
         yield return Position.X;
         yield return Position.Y;
         yield return Position.Z;
-        yield return TexCoords.X;
-        yield return TexCoords.Y;
+        yield return TexCoord.X;
+        yield return TexCoord.Y;
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

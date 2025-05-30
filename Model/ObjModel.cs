@@ -173,6 +173,8 @@ internal class ObjModel : ModelBase
         texModes.Add(TexMode.None);
         var directory = Path.GetDirectoryName(objPath)!;
         LoadDiffuseTextures(directory, material, index);
+        LoadAmbientTextures(directory, material, index);
+        LoadSpecularTextures(directory, material, index);
         LoadNormalTextures(directory, material, index);
         Console.WriteLine("diffuseTexs.Count" + diffuseTexs.Count);
     }
@@ -195,6 +197,30 @@ internal class ObjModel : ModelBase
                     texModes[^1] |= TexMode.Specular;
                     specularTexs[index] = new Texture(texPath, TextureWrapMode.Repeat, TextureUnit.Texture3);
                 }
+            }
+        }
+    }
+    private void LoadAmbientTextures(string directory, Material material, int index)
+    {
+        if (material.GetMaterialTexture(TextureType.Ambient, 0, out var aTexture))
+        {
+            var texPath = Path.Combine(directory, aTexture.FilePath);
+            if (File.Exists(texPath))
+            {
+                texModes[^1] |= TexMode.Ambient;
+                diffuseTexs[index] = new Texture(texPath, TextureWrapMode.Repeat, TextureUnit.Texture1);
+            }
+        }
+    }
+    private void LoadSpecularTextures(string directory, Material material, int index)
+    {
+        if (material.GetMaterialTexture(TextureType.Specular, 0, out var aTexture))
+        {
+            var texPath = Path.Combine(directory, aTexture.FilePath);
+            if (File.Exists(texPath))
+            {
+                texModes[^1] |= TexMode.Specular;
+                diffuseTexs[index] = new Texture(texPath, TextureWrapMode.Repeat, TextureUnit.Texture3);
             }
         }
     }
@@ -232,7 +258,15 @@ internal class ObjModel : ModelBase
                 {
                     tex.Value.Dispose();
                 }
+                foreach (var tex in ambientTexs)
+                {
+                    tex.Value.Dispose();
+                }
                 foreach (var tex in diffuseTexs)
+                {
+                    tex.Value.Dispose();
+                }
+                foreach (var tex in specularTexs)
                 {
                     tex.Value.Dispose();
                 }

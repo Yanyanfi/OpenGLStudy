@@ -205,14 +205,14 @@ internal class Shader : IDisposable
         int fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
         GL.ShaderSource(fragmentShader, fragmentShaderSource);
         GL.CompileShader(fragmentShader);
-        GL.GetShader(vertexShader, ShaderParameter.CompileStatus, out int isSucess);
-        if (isSucess == 0)
+        GL.GetShader(vertexShader, ShaderParameter.CompileStatus, out int isSuccess);
+        if (isSuccess == 0)
         {
             GL.GetShaderInfoLog(vertexShader, out string info);
             throw new Exception(info);
         }
-        GL.GetShader(fragmentShader, ShaderParameter.CompileStatus, out isSucess);
-        if (isSucess == 0)
+        GL.GetShader(fragmentShader, ShaderParameter.CompileStatus, out isSuccess);
+        if (isSuccess == 0)
         {
             GL.GetShaderInfoLog(fragmentShader, out string info);
             throw new Exception(info);
@@ -221,8 +221,8 @@ internal class Shader : IDisposable
         GL.AttachShader(Handle, vertexShader);
         GL.AttachShader(Handle, fragmentShader);
         GL.LinkProgram(Handle);
-        GL.GetProgram(Handle, GetProgramParameterName.LinkStatus, out isSucess);
-        if (isSucess == 0)
+        GL.GetProgram(Handle, GetProgramParameterName.LinkStatus, out isSuccess);
+        if (isSuccess == 0)
         {
             GL.GetProgramInfoLog(Handle, out string info);
             throw new Exception(info);
@@ -281,12 +281,12 @@ internal class Shader : IDisposable
     {
         var colorLocation = GL.GetUniformLocation(Handle, "texture0");
         var ambientLocation = GL.GetUniformLocation(Handle, "texture1");
-        var diffuseLoaction = GL.GetUniformLocation(Handle, "texture2");
+        var diffuseLocation = GL.GetUniformLocation(Handle, "texture2");
         var specularLocation = GL.GetUniformLocation(Handle, "texture3");
         var normalLocation = GL.GetUniformLocation(Handle, "texture4");
         GL.Uniform1(colorLocation, 0);
         GL.Uniform1(ambientLocation, 1);
-        GL.Uniform1(diffuseLoaction, 2);
+        GL.Uniform1(diffuseLocation, 2);
         GL.Uniform1(specularLocation, 3);
         GL.Uniform1(normalLocation, 4);
     }
