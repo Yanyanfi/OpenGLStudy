@@ -121,6 +121,7 @@ internal partial class Game
         {
             Model = modelManager.GetModel(ModelType.Car)
         };
+
         var carLight = new GameObject("carLight", new(0, 5, 0));
         //carLight.AddComponent(new PointLight(new(), 1.0f, 0.045f, 0.0075f, new(0.1f, 0.1f, 0.1f), new(0.8f, 0.8f, 0.8f), new(1, 1, 1)));
         car.AddChild(carLight);
@@ -132,6 +133,12 @@ internal partial class Game
         {
             Model = modelManager.GetModel(ModelType.Fairy)
         };
+
+        //新增
+        car.AddComponent(new EnemyComponent());
+        player.AddComponent(new AttackComponent());
+        earth.AddComponent(new EnemyComponent(300));
+
         house.AddChild(houseMaid);
         scene.AddGameObject(sun);
         scene.AddGameObject(materialCube);

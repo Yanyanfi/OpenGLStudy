@@ -3,6 +3,10 @@
 internal class GameScene
 {
     private List<GameObject> gameObjects = [];
+    public List<GameObject> GetAllGameObjects()
+    {
+        return new List<GameObject>(gameObjects);
+    }
     public void AddGameObject(params List<GameObject> gameObjects)
     {
         gameObjects.ForEach(e => e.Scene = this);
@@ -93,6 +97,10 @@ internal class GameScene
         throw new InvalidOperationException($"Component of type {typeof(T).Name} not found.");
     }
     public void Start() => gameObjects.ForEach(e => e.Start());
-    public void Update(float deltaTime) => gameObjects.ForEach(e => { if (e.IsEnable) e.Update(deltaTime); });
+    public void Update(float deltaTime)
+    {
+        var snapshot = new List<GameObject>(gameObjects);
+        snapshot.ForEach(e => { if (e.IsEnable) e.Update(deltaTime); });
+    }
     public void Render() => gameObjects.ForEach(e => e.Render());
 }
