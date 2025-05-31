@@ -134,10 +134,10 @@ internal partial class Game
             Model = modelManager.GetModel(ModelType.Fairy)
         };
 
-        //新增
+        //攻击与敌人组件
         car.AddComponent(new EnemyComponent());
         player.AddComponent(new AttackComponent());
-        earth.AddComponent(new EnemyComponent(300));
+        earth.AddComponent(new EnemyComponent(300,1));
 
         house.AddChild(houseMaid);
         scene.AddGameObject(sun);

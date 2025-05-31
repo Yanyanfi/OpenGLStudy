@@ -21,7 +21,7 @@ internal class AttackComponent : Component
             {
                 if (IsColliding(Owner, obj))
                 {
-                    enemy!.TakeDamage(Damage);
+                    enemy!.TakeDamage(Damage,Owner);
                     cooldownTimer = Cooldown; // 重置冷却
                     break; // 只攻击一个目标
                 }
