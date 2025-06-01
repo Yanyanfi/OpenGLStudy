@@ -25,7 +25,27 @@ internal class EnemyComponent : Component
 
     public override void Update(float deltaTime)
     {
-        // 可做AI等，这里无需实现
+        // 1. 查找玩家对象
+        if (Owner.Scene == null) return;
+        if (!Owner.Scene.TryGetGameObject("Player", out var player)) return;
+
+        // 2. 获取玩家和敌人的位置
+        var playerPos = player.Transform.Position;
+        var enemyPos = Owner.Transform.Position;
+
+        // 3. 计算方向和距离
+        var direction = playerPos - enemyPos;
+        float distance = direction.Length;
+        if (distance < 0.1f) return; // 距离很近时不再移动
+
+        direction = direction.Normalized();
+
+        // 4. 设置移动速度（单位/秒）
+        float moveSpeed = 1.5f; // 可调整
+        var move = direction * moveSpeed * deltaTime;
+
+        // 5. 移动敌人
+        Owner.Transform.Position += move;
     }
 
     public void TakeDamage(int amount,GameObject gameObject)
