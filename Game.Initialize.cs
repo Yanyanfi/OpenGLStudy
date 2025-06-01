@@ -1,5 +1,6 @@
 ﻿using OpenGLStudy.Components;
 using OpenGLStudy.Components.Cameras;
+using OpenGLStudy.Components.Debug;
 using OpenGLStudy.Components.Light;
 using OpenGLStudy.Enums;
 using OpenGLStudy.Model;
@@ -97,7 +98,8 @@ internal partial class Game
             new Camera(new(0, 1.4f, 0), width / height, true) { FarPlane = 1000 },
             new PointLight(new(0, 0, 0), 1.0f, 0.35f, 0.44f, new(0.1f, 0.1f, 0.1f), new(1, 1, 1), new(1, 1, 1)),
             new CameraPerspectiveSwitcher(),
-            new ThirdPersonCameraDistanceController()
+            new ThirdPersonCameraDistanceController(),
+            new ModelSpaceAxes()
         );
         player.AddChild(cube);
         player.AddChild(objTest);
@@ -133,13 +135,12 @@ internal partial class Game
         {
             Model = modelManager.GetModel(ModelType.Fairy)
         };
-
+        house.AddChild(houseMaid);
         //新增
         car.AddComponent(new EnemyComponent());
         player.AddComponent(new AttackComponent());
         earth.AddComponent(new EnemyComponent(300));
-
-        house.AddChild(houseMaid);
+        
         scene.AddGameObject(sun);
         scene.AddGameObject(materialCube);
         scene.AddGameObject(player);

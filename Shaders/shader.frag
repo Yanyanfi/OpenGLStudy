@@ -57,6 +57,7 @@ in vec3 fragPos;
 in vec3 normal;
 in vec3 tangent;
 in vec3 biTangent;
+in vec3 color;    //for debug
 uniform mat3 fnormal_mat;
 uniform Material material;
 uniform sampler2D texture0;//Color 
@@ -78,16 +79,19 @@ vec3 _normal;
 
 void textureUnlit();
 void phoneLit();
+void debugLine();
 vec3 calcDirLight(DirLight light);
 vec3 calcPointLight(PointLight light);
 vec3 calcSpotLight(SpotLight light);
 
 void main()
 {
-	if(fmode==1)
+	if(fmode == 1)
 		textureUnlit();
-    else if(fmode==2)
+    else if(fmode == 2)
         phoneLit();
+    else if(fmode == 3)
+        debugLine();
 }
 void textureUnlit()
 {
@@ -182,4 +186,9 @@ vec3 calcSpotLight(SpotLight light)
     float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * distance * distance);
 
     return (ambient + diffuse + specular ) * attenuation * intensity;
+}
+
+void debugLine()
+{
+    outputColor=vec4(color,1.0);
 }

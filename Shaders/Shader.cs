@@ -177,6 +177,10 @@ internal class Shader : IDisposable
                 GL.Uniform1(vertMode, 2);
                 GL.Uniform1(fragMode, 2);
                 break;
+            case ShaderMode.DebugLine:
+                GL.Uniform1(vertMode, 3);
+                GL.Uniform1(fragMode, 3);
+                break;
         }
     }
     public void SetTexMode(TexMode mode)

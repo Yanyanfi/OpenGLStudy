@@ -1,7 +1,7 @@
 ﻿using OpenGLStudy.Enums;
 using OpenGLStudy.Model.Base;
+using OpenGLStudy.Model.Debug;
 using OpenGLStudy.Shaders;
-using OpenTK.Graphics.ES11;
 using OpenTK.Mathematics;
 
 namespace OpenGLStudy;
@@ -11,12 +11,18 @@ internal class GameObject
     public string Name { get; set; }
     public Transform Transform { get; set; } = new();
     public IRenderable? Model { get; set; }
+    /// <summary>
+    /// 用于绘制调试的线段
+    /// </summary>
+    public LineRenderer LineRenderer => lineRenderer ??= new();
+    private LineRenderer? lineRenderer;
     public GameScene Scene
     {
         get;
         set
         {
             field = value;
+            children.ForEach(e => e.Scene = value);
             components.ForEach(e => e.Scene = value);
         }
     } = null!;
@@ -28,6 +34,10 @@ internal class GameObject
     /// 模型是否可见
     /// </summary>
     public bool Visible { get; set; } = true;
+    /// <summary>
+    /// 是否绘制用来调试的线
+    /// </summary>
+    public bool EnableRenderLine { get; set; } = false;
     private List<Component> components = [];
     private List<GameObject> children = [];
     private GameObject? parent;
@@ -164,29 +174,29 @@ internal class GameObject
         throw new InvalidOperationException($"Component of type {typeof(T).Name} not found in {Name}'s parent");
     }
     public List<T> GetComponentsInParent<T>() where T : Component => parent?.GetComponents<T>() ?? [];
-    public bool TryGetComponentInAncestors<T>(out T? component)where T : Component
+    public bool TryGetComponentInAncestors<T>(out T? component) where T : Component
     {
         var parent = this.parent;
-        while(parent is not null)
+        while (parent is not null)
         {
-            if(parent.TryGetComponent<T>(out component))
+            if (parent.TryGetComponent<T>(out component))
                 return true;
             parent = parent.parent;
         }
         component = null;
         return false;
     }
-    public T GetComponentInAncestors<T>()where T : Component
+    public T GetComponentInAncestors<T>() where T : Component
     {
-        if(TryGetComponentInAncestors<T>(out var component))
+        if (TryGetComponentInAncestors<T>(out var component))
             return component!;
         throw new InvalidOperationException($"Component of type {typeof(T).Name} not found in {Name}'s Ancestors");
     }
-    public List<T> GetComponentsInAncestors<T>()where T : Component
+    public List<T> GetComponentsInAncestors<T>() where T : Component
     {
         List<T> result = [];
         var parent = this.parent;
-        while(parent is not null)
+        while (parent is not null)
         {
             result.AddRange(parent.GetComponents<T>());
             parent = parent.parent;
@@ -293,5 +303,7 @@ internal class GameObject
         }
         Shader.Instance?.SetMvpMatrix(MVPMatrixTarget.Model, matrix);
         Model?.Render();
+        if (EnableRenderLine)
+            lineRenderer?.Render();
     }
 }

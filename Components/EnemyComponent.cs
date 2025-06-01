@@ -27,7 +27,7 @@ internal class EnemyComponent : Component
         if (Health <= 0)
         {
             // 生命值归零，销毁敌人
-            Owner.Scene.RemoveGameObjects(new List<GameObject> { Owner });
+            Scene.RemoveGameObjects(Owner);
         }
     }
 }

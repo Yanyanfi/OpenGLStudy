@@ -9,5 +9,6 @@ namespace OpenGLStudy.Shaders;
 internal enum ShaderMode
 {
     VertexTexCoordUnlit,
-    MaterialLight
+    MaterialLight,
+    DebugLine
 }
