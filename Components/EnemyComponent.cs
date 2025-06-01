@@ -6,6 +6,9 @@ internal class EnemyComponent : Component
 {
     public int Health { get; set; } = 100;
     public int  droop_id= 0; // 掉落品id
+    public int Attack_id = 0; // 攻击方式
+    public int damage = 10; // 攻击伤害
+
     public EnemyComponent() { }
 
     public EnemyComponent(int health)
@@ -17,6 +20,13 @@ internal class EnemyComponent : Component
         Health = health;
         this.droop_id = droop_id; // 掉落物品id
     }
+    public EnemyComponent(int health = 100, int droop_id = 0, int attack_id = 0, int damage = 10)
+    {
+        Health = health;
+        this.droop_id = droop_id;
+        Attack_id = attack_id;
+        this.damage = damage;
+    }
 
     public override void Start()
     {
@@ -25,6 +35,7 @@ internal class EnemyComponent : Component
 
     public override void Update(float deltaTime)
     {
+        if (Attack_id == 0) return; // 如果攻击方式为0则不执行移动和攻击逻辑
         // 1. 查找玩家对象
         if (Owner.Scene == null) return;
         if (!Owner.Scene.TryGetGameObject("Player", out var player)) return;
@@ -41,11 +52,30 @@ internal class EnemyComponent : Component
         direction = direction.Normalized();
 
         // 4. 设置移动速度（单位/秒）
-        float moveSpeed = 1.5f; // 可调整
-        var move = direction * moveSpeed * deltaTime;
+        float moveSpeed = 1.5f;
+        if (distance < 10f)
+            moveSpeed *= 4; // 距离小于10时速度翻4倍
 
         // 5. 移动敌人
-        Owner.Transform.Position += move;
+        if (distance > 1f)
+        {
+            var move = direction * moveSpeed * deltaTime;
+            Owner.Transform.Position += move;
+        }
+        else
+        {
+            // 6. 攻击并击退玩家
+            // 这里假设击退距离为5f，可根据需要调整
+            float knockbackDistance = 5f;
+            var knockback = direction * knockbackDistance;
+            player.Transform.Position += knockback;
+
+            // 可在此处添加对玩家造成伤害的逻辑
+            if (player.TryGetComponent<PlayerAttributeComponent>(out var attr))
+            {
+                attr.Health -= damage; // 造成伤害
+            }
+        }
     }
 
     public void TakeDamage(int amount,GameObject gameObject)
