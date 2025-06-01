@@ -143,10 +143,11 @@ internal partial class Game
         skybox.AddComponent<AddSkybox>();
 
         //攻击与敌人组件
-        car.AddComponent(new EnemyComponent());
+        car.AddComponent(new EnemyComponent(100,0));
         player.AddComponent(new AttackComponent());
-        earth.AddComponent(new EnemyComponent(300,1));
-        triangle.AddComponent(new EnemySpawnerComponent(50));//敌人生成器,敌人生命值为200
+        earth.AddComponent(new EnemyComponent(400,1));
+        triangle.AddComponent(new EnemySpawnerComponent(200));//敌人生成器,敌人生命值为200
+        player.AddComponent(new PlayerAttributeComponent(100,50));//玩家属性组件
 
         
         scene.AddGameObject(sun);

@@ -66,7 +66,7 @@ namespace OpenGLStudy.Components
                 { Model = ModelManager.Instance!.GetModel(ModelType.Girl) };//替换敌人模型
 
              
-                var enemyComponent = new EnemyComponent { Health = EnemyHealth };
+                var enemyComponent = new EnemyComponent { Health = EnemyHealth, Attack_id =1};
                 enemy.AddComponent(enemyComponent);
 
                 Scene.AddGameObject(enemy);
