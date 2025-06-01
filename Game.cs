@@ -23,8 +23,9 @@ partial class Game : GameWindow
 
     private Shader shader;
     private ModelManager modelManager;
+    public ModelManager ModelManager => modelManager; // 公有只读属性
     private TextureManager textureManager;
-    private GameScene scene;
+    private GameScene scene;   
 
     public Game(int width, int height, Vector2i location, string title)
         : base(

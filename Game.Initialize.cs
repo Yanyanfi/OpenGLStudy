@@ -136,10 +136,12 @@ internal partial class Game
             Model = modelManager.GetModel(ModelType.Fairy)
         };
         house.AddChild(houseMaid);
-        //新增
+        //攻击与敌人组件
         car.AddComponent(new EnemyComponent());
         player.AddComponent(new AttackComponent());
-        earth.AddComponent(new EnemyComponent(300));
+        earth.AddComponent(new EnemyComponent(300,1));
+        triangle.AddComponent(new EnemySpawnerComponent(50));//敌人生成器,敌人生命值为200
+
         
         scene.AddGameObject(sun);
         scene.AddGameObject(materialCube);
