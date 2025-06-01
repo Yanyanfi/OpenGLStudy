@@ -1,9 +1,5 @@
-﻿using OpenGLStudy.Components;
-using OpenGLStudy.Components.Cameras;
-using OpenGLStudy.Components.Light;
-using OpenGLStudy.Enums;
+﻿using OpenGLStudy.Components.Cameras;
 using OpenGLStudy.Inputs;
-using OpenGLStudy.Model;
 using OpenGLStudy.Models;
 using OpenGLStudy.Shaders;
 using OpenGLStudy.Textures;
@@ -12,7 +8,6 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using System.Xml.Schema;
 
 namespace OpenGLStudy;
 
@@ -25,7 +20,7 @@ partial class Game : GameWindow
     private ModelManager modelManager;
     public ModelManager ModelManager => modelManager; // 公有只读属性
     private TextureManager textureManager;
-    private GameScene scene;   
+    private GameScene scene;
 
     public Game(int width, int height, Vector2i location, string title)
         : base(
@@ -94,7 +89,7 @@ partial class Game : GameWindow
         height = e.Height;
         scene.TryGetComponent<Camera>(out var camera);
         camera?.AspectRatio = (float)e.Width / e.Height;
-        
+
     }
     private partial void LoadTextures();
 

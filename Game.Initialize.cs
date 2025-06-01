@@ -2,8 +2,10 @@
 using OpenGLStudy.Components.Cameras;
 using OpenGLStudy.Components.Debug;
 using OpenGLStudy.Components.Light;
+using OpenGLStudy.Components.Skybox;
 using OpenGLStudy.Enums;
 using OpenGLStudy.Model;
+using OpenGLStudy.Model.Skybox;
 using OpenTK.Mathematics;
 
 namespace OpenGLStudy;
@@ -67,6 +69,7 @@ internal partial class Game
         modelManager.AddModel(new ObjModel("Assets\\3pl90nmkl3sw-building_04_all\\building_04.obj"), ModelType.Building);
         modelManager.AddModel(new FbxModel("Assets\\shaonv1\\shaonv1_a_2011.FBX",
             new() { Rotation = new(-(float)Math.PI / 2, 0, (float)Math.PI), Scale = new(0.01f) }, false), ModelType.Fairy);
+        modelManager.AddModel(new SkyboxModel("Assets\\Skybox\\sky1"), ModelType.Skybox1);
     }
     private partial void InitializeGameObjects()
     {
@@ -136,6 +139,9 @@ internal partial class Game
             Model = modelManager.GetModel(ModelType.Fairy)
         };
         house.AddChild(houseMaid);
+        var skybox = new GameObject("Skybox");
+        skybox.AddComponent<AddSkybox>();
+
         //攻击与敌人组件
         car.AddComponent(new EnemyComponent());
         player.AddComponent(new AttackComponent());
@@ -151,6 +157,10 @@ internal partial class Game
         scene.AddGameObject(earth);
         scene.AddGameObject(car);
         scene.AddGameObject(house);
+        scene.AddGameObject(skybox);
     }
 
 }
+
+//计划在GameObjectFactory目录下创建游戏对象的工厂类。
+//通过调用工厂类中的工厂方法直接获得已经组装好的游戏对象。(类似于Unity中的预制体)
