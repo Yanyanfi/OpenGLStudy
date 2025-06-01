@@ -4,7 +4,7 @@ using OpenGLStudy.Enums;
 using OpenGLStudy.Models;
 internal class EnemyComponent : Component
 {
-    public int Health { get; private set; } = 100;
+    public int Health { get; set; } = 100;
     public int  droop_id= 0; // µôÂäÆ·id
     public EnemyComponent() { }
 
