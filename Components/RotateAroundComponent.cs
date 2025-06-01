@@ -10,7 +10,7 @@ namespace OpenGLStudy.Components
 {
     internal class RotateAroundComponent : Component
     {
-        public GameObject Target { get; set; } // 旋转中心（玩家）
+        public GameObject? Target { get; set; } // 旋转中心（玩家）
         public float Radius { get; set; } = 3f;
         public float Speed { get; set; } = 2f; // 旋转速度
         private float angle = 0f;
