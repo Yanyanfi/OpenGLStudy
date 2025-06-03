@@ -11,7 +11,7 @@ internal class AddSkybox : Component
     IRenderable skyboxModel;
     public AddSkybox()
     {
-        skyboxModel = ModelManager.Instance!.GetModel(ModelType.Skybox1);
+        skyboxModel = ModelManager.Instance!.GetModel(ModelType.Skybox2);
     }
     public override void Start()
     {

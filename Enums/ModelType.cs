@@ -18,5 +18,6 @@ internal enum ModelType
     IronMan,
     Building,
     Fairy,
-    Skybox1
+    Skybox1,
+    Skybox2,
 }
