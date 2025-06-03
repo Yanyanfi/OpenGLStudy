@@ -3,6 +3,7 @@ using OpenGLStudy.Model.Base;
 using OpenGLStudy.Model.Debug;
 using OpenGLStudy.Shaders;
 using OpenTK.Mathematics;
+using System.Reflection;
 
 namespace OpenGLStudy;
 
@@ -16,6 +17,21 @@ internal class GameObject
     /// </summary>
     public LineRenderer LineRenderer => lineRenderer ??= new();
     private LineRenderer? lineRenderer;
+    private bool isActive = true;
+    /// <summary>
+    /// 在初始化时设置是否激活游戏对象（默认为激活状态）<br/>
+    /// 不会触发组件的 OnEnable() 方法
+    /// </summary>
+    public bool IsActive
+    {
+        get => isActive;
+        init => isActive = value;
+    }
+    /// <summary>
+    /// 设置模型是否可见
+    /// </summary>
+    public bool IsVisible { get; set; } = true;
+    public bool Started { get; private set; } = false;
     public GameScene Scene
     {
         get;
@@ -27,13 +43,20 @@ internal class GameObject
         }
     } = null!;
     /// <summary>
-    /// 是否进入游戏循环 (逻辑上)
+    /// 运行时切换游戏对象的激活状态
     /// </summary>
-    public bool IsEnable { get; set; } = true;
-    /// <summary>
-    /// 模型是否可见
-    /// </summary>
-    public bool Visible { get; set; } = true;
+    public void SetActive(bool isActive)
+    {
+        if (this.isActive == isActive)
+            return;
+        this.isActive = isActive;
+        var enabledComponents = components.FindAll(e => e.Enabled);
+        if (isActive)
+            enabledComponents.ForEach(e => e.OnEnable());
+        else
+            enabledComponents.ForEach(e => e.OnDisable());
+    }
+
     /// <summary>
     /// 是否绘制用来调试的线
     /// </summary>
@@ -215,6 +238,7 @@ internal class GameObject
     /// <param name="name">对象的 <see cref="Name"></see> 属性值</param>
     /// <returns>游戏对象列表</returns>
     public List<GameObject> GetChildren(string name) => children.FindAll(e => e.Name == name);
+    public List<GameObject> GetAllChildren() => [.. children];
     /// <summary>
     /// 添加子对象 (可一次性添加多个)
     /// </summary>
@@ -250,7 +274,8 @@ internal class GameObject
     /// <typeparam name="T">组件类型</typeparam>
     public void RemoveComponents<T>() where T : Component
     {
-        components = components.FindAll(e => e is not T);
+        var deleteComponents = components.FindAll(e => e is T);
+        deleteComponents.ForEach(e => { e.OnDestroy(); components.Remove(e); e.Owner = null!; e.Scene = null!; });
     }
     /// <summary>
     /// 永久移除符合类型的组件
@@ -258,15 +283,21 @@ internal class GameObject
     /// <param name="components"></param>
     public void RemoveComponents(params List<Component> components)
     {
-        components.ForEach(e => this.components.Remove(e));
+        var deleteComponents = new List<Component>(components);
+        deleteComponents.ForEach(e => { e.OnDestroy(); this.components.Remove(e); e.Owner = null!; e.Scene = null!; });
     }
+
     /// <summary>
     /// 禁用组件 (禁止符合类型的组件进入游戏循环)
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public void DisableComponents<T>() where T : Component
     {
-        components.FindAll(e => e is T).ForEach(e => e.IsEnable = false);
+        components.FindAll(e => e is T).ForEach(e => e.Enabled = false);
+    }
+    public void DisableComponents(params List<Component> components)
+    {
+        components.ForEach(e => e.Enabled = false);
     }
     /// <summary>
     /// 启用所有符合类型的组件 (除非主动禁用过组件，否则组件在添加到对象上时已默认启用)
@@ -274,24 +305,43 @@ internal class GameObject
     /// <typeparam name="T"></typeparam>
     public void EnableComponents<T>() where T : Component
     {
-        components.FindAll(e => e is T).ForEach(e => e.IsEnable = true);
+        components.FindAll(e => e is T).ForEach(e => e.Enabled = true);
     }
-    public void RemoveFromScene() => Scene.RemoveGameObjects(this);
+    public void EnableComponents(params List<Component> components)
+    {
+        components.ForEach(e => e.Enabled = true);
+    }
+    /// <summary>
+    /// 彻底销毁自己
+    /// </summary>
+    public void RemoveFromScene()
+    {
+        children.ForEach(e => e.RemoveFromScene());
+        RemoveComponents(components);
+        LineRenderer?.Dispose();
+        var objListInfo = typeof(GameScene).GetField("gameObjects", BindingFlags.NonPublic | BindingFlags.Instance)!;
+        var list = (List<GameObject>)objListInfo.GetValue(Scene)!;
+        list.Remove(this);
+        Scene = null!;
+    }
     public void Start()
     {
-        children.ForEach(e => e.Start());
-        components.ForEach(e => e.Start());
+        children.ForEach(static e => e.Start());
+        new List<Component>(components).ForEach(static e => e.Start());
+        Started = true;
     }
 
     public void Update(float deltaTime)
     {
-        children.ForEach(e => { if (e.IsEnable) e.Update(deltaTime); });
-        components.ForEach(e => { if (e.IsEnable) e.Update(deltaTime); });
+        if (!IsActive)
+            return;
+        children.ForEach(e => e.Update(deltaTime));
+        new List<Component>(components).ForEach(e => { if (e.Enabled) e.Update(deltaTime); });
     }
 
     public void Render()
     {
-        if (!Visible)
+        if (!IsVisible || !IsActive)
             return;
         children.ForEach(e => e.Render());
         var parent = this.parent;

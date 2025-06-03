@@ -1,7 +1,4 @@
-﻿using OpenGLStudy.Inputs;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-
-namespace OpenGLStudy;
+﻿namespace OpenGLStudy;
 
 internal abstract class Component
 {
@@ -11,7 +8,18 @@ internal abstract class Component
     /// <summary>
     /// 是否进入游戏循环
     /// </summary>
-    public bool IsEnable { get; set; } = true;
+    public bool Enabled
+    {
+        get;
+        set
+        {
+            if (!field && value)
+                OnEnable();
+            else if (field && !value)
+                OnDisable();
+            field = value;
+        }
+    } = true;
     public void RemoveFromOwner() => Owner.RemoveComponents(this);
     public virtual void Start() { }
     public virtual void Update(float deltaTime)
@@ -21,6 +29,9 @@ internal abstract class Component
         DeltaTimeSum += deltaTime;
     }
     protected virtual void CustomUpdate(float deltaTime) { }
+    public virtual void OnDestroy() { }
+    public virtual void OnDisable() { }
+    public virtual void OnEnable() { }
     private float DeltaTimeSum
     {
         get;
@@ -37,6 +48,6 @@ internal abstract class Component
             }
         }
     } = 0.0f;
-    
+
     private float customDeltaTime = 0.0f;
 }
