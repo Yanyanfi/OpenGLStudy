@@ -1,5 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 
 namespace OpenGLStudy.Textures;
 

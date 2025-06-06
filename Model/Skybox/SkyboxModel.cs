@@ -82,35 +82,66 @@ internal class SkyboxModel : ModelBase
     private static void InitializeVertices()
     {
         skyboxFaces[0] = ( // +X (Right)
-            new float[] { 1, -1, -1, 0, 0, 1, -1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, -1, 0, 1 },
+            new float[] {
+            1, -1, -1, 0, 1,
+            1, -1,  1, 1, 1,
+            1,  1,  1, 1, 0,
+            1,  1, -1, 0, 0
+            },
             new uint[] { 0, 1, 2, 2, 3, 0 }
         );
 
         skyboxFaces[1] = ( // -X (Left)
-            new float[] { -1, -1, 1, 0, 0, -1, -1, -1, 1, 0, -1, 1, -1, 1, 1, -1, 1, 1, 0, 1 },
+            new float[] {
+           -1, -1,  1, 0, 1,
+           -1, -1, -1, 1, 1,
+           -1,  1, -1, 1, 0,
+           -1,  1,  1, 0, 0
+            },
             new uint[] { 0, 1, 2, 2, 3, 0 }
         );
 
         skyboxFaces[2] = ( // +Y (Top)
-            new float[] { -1, 1, -1, 0, 0, 1, 1, -1, 1, 0, 1, 1, 1, 1, 1, -1, 1, 1, 0, 1 },
+            new float[] {
+           -1, 1, -1, 0, 1,
+            1, 1, -1, 1, 1,
+            1, 1,  1, 1, 0,
+           -1, 1,  1, 0, 0
+            },
             new uint[] { 0, 1, 2, 2, 3, 0 }
         );
 
         skyboxFaces[3] = ( // -Y (Bottom)
-            new float[] { -1, -1, 1, 0, 0, 1, -1, 1, 1, 0, 1, -1, -1, 1, 1, -1, -1, -1, 0, 1 },
+            new float[] {
+           -1, -1,  1, 0, 1,
+            1, -1,  1, 1, 1,
+            1, -1, -1, 1, 0,
+           -1, -1, -1, 0, 0
+            },
             new uint[] { 0, 1, 2, 2, 3, 0 }
         );
 
         skyboxFaces[4] = ( // +Z (Front)
-            new float[] { -1, -1, -1, 0, 0, 1, -1, -1, 1, 0, 1, 1, -1, 1, 1, -1, 1, -1, 0, 1 },
+            new float[] {
+           -1, -1, -1, 0, 1,
+            1, -1, -1, 1, 1,
+            1,  1, -1, 1, 0,
+           -1,  1, -1, 0, 0
+            },
             new uint[] { 0, 1, 2, 2, 3, 0 }
         );
 
         skyboxFaces[5] = ( // -Z (Back)
-            new float[] { 1, -1, 1, 0, 0, -1, -1, 1, 1, 0, -1, 1, 1, 1, 1, 1, 1, 1, 0, 1 },
+            new float[] {
+            1, -1,  1, 0, 1,
+           -1, -1,  1, 1, 1,
+           -1,  1,  1, 1, 0,
+            1,  1,  1, 0, 0
+            },
             new uint[] { 0, 1, 2, 2, 3, 0 }
         );
     }
+
     #region Dispose
     protected override void Dispose(bool disposing)
     {

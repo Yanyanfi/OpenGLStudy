@@ -45,40 +45,40 @@ internal class GameScene
     public void RemoveGameObject(string name)
     {
         var obj = gameObjects.FirstOrDefault(e => e.Name == name);
-        gameObjects.Remove(obj!);
+        obj?.RemoveFromScene();
     }
     public void RemoveGameObjects(string name)
     {
-        gameObjects = gameObjects.FindAll(e => e.Name != name);
+        gameObjects.FindAll(e => e.Name != name).ForEach(e => e.RemoveFromScene());
     }
     public void RemoveGameObject<T>() where T : Component
     {
         var obj = gameObjects.FirstOrDefault(e => e.HasComponent<T>());
-        gameObjects.Remove(obj!);
+        obj?.RemoveFromScene();
     }
     public void RemoveGameObjects<T>() where T : Component
     {
-        gameObjects.FindAll(e => e.HasComponent<T>()).ForEach(e => gameObjects.Remove(e));
+        gameObjects.FindAll(e => e.HasComponent<T>()).ForEach(e => e.RemoveFromScene());
     }
     public void RemoveGameObjects(params List<GameObject> gameObjects)
     {
-        gameObjects.ForEach(e => this.gameObjects.Remove(e));
+        gameObjects.ForEach(e => e.RemoveFromScene());
     }
     public void DisableGameObject(string name)
     {
-        gameObjects.FirstOrDefault(e => e.Name == name)?.IsEnable = false;
+        gameObjects.FirstOrDefault(e => e.Name == name)?.SetActive(false);
     }
     public void DisableGameObjects(string name)
     {
-        gameObjects.FindAll(e => e.Name == name).ForEach(e => e.IsEnable = false);
+        gameObjects.FindAll(e => e.Name == name).ForEach(e => e.SetActive(false));
     }
     public void DisableGameObject<T>() where T : Component
     {
-        gameObjects.FirstOrDefault(e => e.HasComponent<T>())?.IsEnable = false;
+        gameObjects.FirstOrDefault(e => e.HasComponent<T>())?.SetActive(false);
     }
     public void DisableGameObjects<T>() where T : Component
     {
-        gameObjects.FindAll(e => e.HasComponent<T>()).ForEach(e => e.IsEnable = false);
+        gameObjects.FindAll(e => e.HasComponent<T>()).ForEach(e => e.SetActive(false));
     }
     public bool TryGetComponent<T>(out T? component) where T : Component
     {
@@ -96,11 +96,16 @@ internal class GameScene
             return component!;
         throw new InvalidOperationException($"Component of type {typeof(T).Name} not found.");
     }
-    public void Start() => gameObjects.ForEach(e => e.Start());
+    public void Start() => new List<GameObject>(gameObjects).ForEach(e => e.Start());
     public void Update(float deltaTime)
     {
         var snapshot = new List<GameObject>(gameObjects);
-        snapshot.ForEach(e => { if (e.IsEnable) e.Update(deltaTime); });
+        foreach (var gameObject in snapshot)
+        {
+            if (!gameObject.Started)
+                gameObject.Start();
+            gameObject.Update(deltaTime);
+        }
     }
     public void Render() => gameObjects.ForEach(e => e.Render());
 }

@@ -84,8 +84,6 @@ internal class EnemyComponent : Component
         Health -= amount;
         if (Health <= 0)
         {
-            // 生命值归零，销毁敌人
-            Owner.Scene.RemoveGameObjects(Owner);
             switch (droop_id) // 根据掉落id生成不同的战利品
             {
                 case 1:
@@ -95,7 +93,8 @@ internal class EnemyComponent : Component
                 default:
                     break;
             }
-
+            // 生命值归零，销毁敌人
+            Owner.Scene.RemoveGameObjects(Owner);
         }
     }
 
@@ -119,7 +118,7 @@ internal class EnemyComponent : Component
                 player.AddComponent(new PlayerSkillComponent
                 {
                     BallCount = 3,
-                    Range = 100f,
+                    Range = 500f,
                     Cooldown = 6f
                 });
             }

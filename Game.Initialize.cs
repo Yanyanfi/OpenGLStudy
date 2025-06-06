@@ -70,6 +70,7 @@ internal partial class Game
         modelManager.AddModel(new FbxModel("Assets\\shaonv1\\shaonv1_a_2011.FBX",
             new() { Rotation = new(-(float)Math.PI / 2, 0, (float)Math.PI), Scale = new(0.01f) }, false), ModelType.Fairy);
         modelManager.AddModel(new SkyboxModel("Assets\\Skybox\\sky1"), ModelType.Skybox1);
+        modelManager.AddModel(new SkyboxModel("Assets\\Skybox\\sky2"), ModelType.Skybox2);
     }
     private partial void InitializeGameObjects()
     {
