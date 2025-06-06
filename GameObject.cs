@@ -283,10 +283,12 @@ internal class GameObject
         components.ForEach(e => e.Start());
     }
 
+   
     public void Update(float deltaTime)
     {
         children.ForEach(e => { if (e.IsEnable) e.Update(deltaTime); });
-        components.ForEach(e => { if (e.IsEnable) e.Update(deltaTime); });
+        var snapshot = new List<Component>(components);
+        snapshot.ForEach(e => { if (e.IsEnable) e.Update(deltaTime); });
     }
 
     public void Render()

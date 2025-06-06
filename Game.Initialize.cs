@@ -102,7 +102,7 @@ internal partial class Game
             new PointLight(new(0, 0, 0), 1.0f, 0.35f, 0.44f, new(0.1f, 0.1f, 0.1f), new(1, 1, 1), new(1, 1, 1)),
             new CameraPerspectiveSwitcher(),
             new ThirdPersonCameraDistanceController(),
-            new ModelSpaceAxes()
+            new ModelSpaceAxes()      
         );
         player.AddChild(cube);
         player.AddChild(objTest);
