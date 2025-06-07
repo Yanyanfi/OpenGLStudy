@@ -43,7 +43,7 @@ namespace OpenGLStudy.Components
             for (int i = 0; i < BallCount; i++)
             {
                 float angle = i * MathF.PI * 2 / BallCount;
-                Vector3 offset = new Vector3(MathF.Cos(angle), 0, MathF.Sin(angle)) * 2f;
+                Vector3 offset = new Vector3(MathF.Cos(angle), 5, MathF.Sin(angle)) * 2f;
                 Vector3 spawnPos = Owner.Transform.Position + offset;
 
                 var ball = new GameObject("SkillBall", spawnPos)

@@ -117,7 +117,7 @@ internal class EnemyComponent : Component
             {
                 player.AddComponent(new PlayerSkillComponent
                 {
-                    BallCount = 3,
+                    BallCount = 5,
                     Range = 500f,
                     Cooldown = 6f
                 });
