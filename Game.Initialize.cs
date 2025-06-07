@@ -105,7 +105,7 @@ internal partial class Game
             new ThirdPersonCameraDistanceController(),
             new ModelSpaceAxes(),
             new GravityComponent(),
-            new PlayerAttributeComponent()
+            new PlayerAttributeComponent(),
             new ModelSpaceAxes()      
         );
         player.AddChild(cube);
