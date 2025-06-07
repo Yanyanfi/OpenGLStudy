@@ -7,6 +7,7 @@ namespace OpenGLStudy.Components;
 internal class PlayerMove : Component
 {
     public float Speed { get; set; } = 3f;
+    public float RunSpeedMultiplier { get; set; } = 1.5f; // 奔跑速度倍数
     public float JumpSpeed { get; set; } = 4f;
 
     private Vector3 Front => Owner.Transform.Front;
@@ -19,7 +20,6 @@ internal class PlayerMove : Component
     {
         FrameTimeLimit = Owner.GetComponent<Camera>().FrameTimeLimit;
         gravityComponent = Owner.GetComponent<GravityComponent>();
-
     }
 
     public override void Update(float deltaTime)
@@ -29,7 +29,10 @@ internal class PlayerMove : Component
 
     private void ProcessKeyboard(float deltaTime)
     {
-        float velocity = Speed * deltaTime;
+        // 检查是否按下 Shift 键来决定移动速度
+        bool isRunning = InputState.Keyboard.IsKeyDown(Keys.LeftShift);
+        float currentSpeed = isRunning ? Speed * RunSpeedMultiplier : Speed;
+        float velocity = currentSpeed * deltaTime;
 
         // 水平移动
         if (InputState.Keyboard.IsKeyDown(Keys.W))
@@ -40,8 +43,6 @@ internal class PlayerMove : Component
             Owner.Transform.Position -= Right * velocity;
         if (InputState.Keyboard.IsKeyDown(Keys.D))
             Owner.Transform.Position += Right * velocity;
-        if (InputState.Keyboard.IsKeyDown(Keys.LeftShift))
-            Owner.Transform.Position -= Up * velocity;
 
         // 跳跃逻辑
         if (gravityComponent.IsGrounded && InputState.Keyboard.IsKeyDown(Keys.Space))
@@ -49,5 +50,4 @@ internal class PlayerMove : Component
             gravityComponent.SetVerticalVelocity(JumpSpeed);
         }
     }
-
 }
