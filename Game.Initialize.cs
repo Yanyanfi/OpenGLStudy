@@ -90,7 +90,7 @@ internal partial class Game
             Model = modelManager.GetModel(ModelType.Girl)
         };
         //cube.AddComponent(new BiggerAndBigger(1.1f, 1f));
-        var player = new GameObject("Player", new(1, 2, 1))
+        var player = new GameObject("Player", new(1, 50, 1))
         {
             Model = modelManager.GetModel(ModelType.Cube),
         };
@@ -103,13 +103,15 @@ internal partial class Game
             new PointLight(new(0, 0, 0), 1.0f, 0.35f, 0.44f, new(0.1f, 0.1f, 0.1f), new(1, 1, 1), new(1, 1, 1)),
             new CameraPerspectiveSwitcher(),
             new ThirdPersonCameraDistanceController(),
-            new ModelSpaceAxes()
+            new ModelSpaceAxes(),
+            new GravityComponent(),
+            new PlayerAttributeComponent()
         );
         player.AddChild(cube);
         player.AddChild(objTest);
         var sun = new GameObject("Sun");
         sun.AddComponent(new DirectLight(new(-0.2f, -1.0f, -0.3f), new(0.1f, 0.1f, 0.1f), new(0.6f, 0.6f, 0.6f), new(2f, 2f, 2f)));
-        var materialCube = new GameObject("MaterialCube", new(4, 4, 4))
+        var materialCube = new GameObject("MaterialCube", new(4, 1, 4))
         {
             Model = modelManager.GetModel(ModelType.GoldenCube)
         };
@@ -149,7 +151,7 @@ internal partial class Game
         earth.AddComponent(new EnemyComponent(400,1));
         triangle.AddComponent(new EnemySpawnerComponent(200));//敌人生成器,敌人生命值为200
         player.AddComponent(new PlayerAttributeComponent(100,50));//玩家属性组件
-
+        
         
         scene.AddGameObject(sun);
         scene.AddGameObject(materialCube);

@@ -7,7 +7,7 @@ internal class EnemyComponent : Component
     public int Health { get; set; } = 100;
     public int  droop_id= 0; // µôÂäÆ·id
     public int Attack_id = 0; // ¹¥»÷·½Ê½
-    public int damage = 10; // ¹¥»÷ÉËº¦
+    public int damage = 50; // ¹¥»÷ÉËº¦
 
     public EnemyComponent() { }
 
@@ -20,7 +20,7 @@ internal class EnemyComponent : Component
         Health = health;
         this.droop_id = droop_id; // µôÂäÎïÆ·id
     }
-    public EnemyComponent(int health = 100, int droop_id = 0, int attack_id = 0, int damage = 10)
+    public EnemyComponent(int health = 100, int droop_id = 0, int attack_id = 0, int damage = 50)
     {
         Health = health;
         this.droop_id = droop_id;

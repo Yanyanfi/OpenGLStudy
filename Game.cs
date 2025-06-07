@@ -96,4 +96,5 @@ partial class Game : GameWindow
     private partial void LoadModels();
 
     private partial void InitializeGameObjects();
+
 }

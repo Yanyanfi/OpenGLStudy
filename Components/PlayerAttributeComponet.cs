@@ -1,6 +1,9 @@
 ﻿using OpenGLStudy;
 using OpenGLStudy.Components;
-
+using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+using Assimp.Unmanaged;
 namespace OpenGLStudy.Components
 {
     /// <summary>
@@ -16,6 +19,13 @@ namespace OpenGLStudy.Components
         {
             Health = health;
             Attack = attack;
+        }
+        public void EndGame(GameWindow window)
+        {
+            if (Health <= 0)
+            {
+                window.Close();
+            }
         }
     }
 }

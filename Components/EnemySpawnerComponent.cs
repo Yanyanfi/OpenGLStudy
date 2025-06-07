@@ -65,10 +65,10 @@ namespace OpenGLStudy.Components
                 var enemy = new GameObject($"Enemy_{Guid.NewGuid()}", pos) 
                 { Model = ModelManager.Instance!.GetModel(ModelType.Girl) };//替换敌人模型
 
-             
-                var enemyComponent = new EnemyComponent { Health = EnemyHealth, Attack_id =1};
+                
+                var enemyComponent = new EnemyComponent { Health = EnemyHealth, Attack_id =0};
                 enemy.AddComponent(enemyComponent);
-
+                enemy.AddComponent(new GravityComponent());
                 Scene.AddGameObject(enemy);
             }
         }
