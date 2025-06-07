@@ -106,6 +106,7 @@ internal partial class Game
             new ModelSpaceAxes(),
             new GravityComponent(),
             new PlayerAttributeComponent()
+            new ModelSpaceAxes()      
         );
         player.AddChild(cube);
         player.AddChild(objTest);

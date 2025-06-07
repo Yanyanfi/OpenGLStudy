@@ -331,12 +331,14 @@ internal class GameObject
         Started = true;
     }
 
+   
     public void Update(float deltaTime)
     {
         if (!IsActive)
             return;
         children.ForEach(e => e.Update(deltaTime));
         new List<Component>(components).ForEach(e => { if (e.Enabled) e.Update(deltaTime); });
+
     }
 
     public void Render()

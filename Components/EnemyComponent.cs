@@ -110,6 +110,20 @@ internal class EnemyComponent : Component
         // 添加旋转组件（此处Target需在拾取时设置为玩家）
         ball.AddComponent(new RotateAroundComponent { Radius = 5f, Speed = 2f, Target = gameObject });
         // 添加到场景
+        // 直接给玩家添加技能组件
+        if (Owner.Scene.TryGetGameObject("Player", out var player))
+        {
+            if (!player.HasComponent<PlayerSkillComponent>())
+            {
+                player.AddComponent(new PlayerSkillComponent
+                {
+                    BallCount = 3,
+                    Range = 500f,
+                    Cooldown = 6f
+                });
+            }
+        }
+
         Owner.Scene.AddGameObject(ball);
     }
 

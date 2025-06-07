@@ -12,9 +12,9 @@ namespace OpenGLStudy.Components
     internal class EnemySpawnerComponent : Component
     {
         public float SpawnInterval { get; set; } = 10f; // 生成间隔（秒）
-        public int SpawnCount { get; set; } = 3;       // 每次生成数量
+        public int SpawnCount { get; set; } = 5;       // 每次生成数量
         public int EnemyHealth { get; set; } = 100; // 敌人生命值
-        public float SpawnRadius { get; set; } = 5f;   // 生成半径
+        public float SpawnRadius { get; set; } = 15f;   // 生成半径
 
         public EnemySpawnerComponent(
         float spawnInterval = 10f,
@@ -66,7 +66,7 @@ namespace OpenGLStudy.Components
                 { Model = ModelManager.Instance!.GetModel(ModelType.Girl) };//替换敌人模型
 
                 
-                var enemyComponent = new EnemyComponent { Health = EnemyHealth, Attack_id =0};
+                var enemyComponent = new EnemyComponent { Health = EnemyHealth, Attack_id =1};
                 enemy.AddComponent(enemyComponent);
                 enemy.AddComponent(new GravityComponent());
                 Scene.AddGameObject(enemy);

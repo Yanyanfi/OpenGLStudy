@@ -20,12 +20,6 @@ namespace OpenGLStudy.Components
             Health = health;
             Attack = attack;
         }
-        public void EndGame(GameWindow window)
-        {
-            if (Health <= 0)
-            {
-                window.Close();
-            }
-        }
+
     }
 }
